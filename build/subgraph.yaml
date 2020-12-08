@@ -1,0 +1,42 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: NashExchange
+    network: mainnet
+    source:
+      address: "0xE2dc070524A6e305ddB64d8513DC444B6a1ec845"
+      abi: NashExchange
+      startBlock: 11376168
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - SwapFromNeo
+        - SwapToNeo
+        - Transfer
+      abis:
+        - name: NashExchange
+          file: NashExchange/abis/NashExchange.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: SwapFromNeo(address,string,uint256,uint256)
+          handler: handleSwapFromNeo
+        - event: SwapToNeo(address,string,uint256,uint256)
+          handler: handleSwapToNeo
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: NashExchange/NashExchange.wasm
